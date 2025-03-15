@@ -1,13 +1,61 @@
-mod structs;
-mod traits;
 
-use std::collections::HashMap;
+mod structs;
+use structs::Calculator;
+mod traits;
+use traits::CalculatorSuperTrait;
+use traits::AdditiveOperations;
+use traits::MultiplicativeOperations;
+use traits::BinaryOperations;
+
+impl AdditiveOperations for Calculator{}
+impl MultiplicativeOperations for Calculator{}
+impl BinaryOperations for Calculator{}
+
+impl CalculatorSuperTrait for Calculator {
+    fn get_first(&self) -> i64 {
+        return self.first;
+    }
+    
+    fn get_second(&self)->i64 {
+        return self.second
+    }
+    
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "First: {}, Second: {}\n", self.first, self.second)?;
+       // write!(f, "First is {} is Second is {}", self.first, self.second);
+       write!(f, "ADD: {}", <Calculator as AdditiveOperations>::add(self.first, self.second))?;
+        // add
+        
+        write!(f, "SUB: {}\n", <Calculator as AdditiveOperations>::sub(self.first,self.second))?;
+
+        // sub
+         write!(f, "MUL: {}\n", <Calculator as MultiplicativeOperations>::mul(self.first,self.second))?;
+        // mul
+        write!(f, "DIV: {}\n", <Calculator as MultiplicativeOperations>::div(self.first,self.second))?;
+        // div
+        write!(f, "AND: {}\n", <Calculator as BinaryOperations>::and(self.first,self.second))?;
+        // and
+        write!(f, "OR: {}\n", <Calculator as BinaryOperations>::or(self.first,self.second))?;
+        // or
+        write!(f, "XOR: {}\n", <Calculator as BinaryOperations>::xor(self.first,self.second))?;
+        // xor
+        Ok(())
+    }
+
+}
+// Implement std::fmt::Display for Calculator
+impl std::fmt::Display for Calculator {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        <Self as CalculatorSuperTrait>::fmt(self, f)
+    }
+}
 
 fn main() {
-    let mut values: HashMap<String, u64> = HashMap::new();
-    let test = String::from("test");
-    values.insert(test, 12345);
-    println!("\"test\" associated value is {}", values.get("testa").unwrap());
+    let calculator = Calculator {
+        first: 5,
+        second: 3
+    };
+    println!("calculator: {}", calculator); 
 }
 
 // Exercise 3

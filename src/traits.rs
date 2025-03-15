@@ -1,6 +1,7 @@
+use std::fmt;
 
 pub trait AdditiveOperations {
-    fn add( a: i64 , b: i64) -> i64{
+    fn add(a:i64, b:i64) -> i64{
         return a + b;
     }
 
@@ -40,8 +41,8 @@ pub trait BinaryOperations{
 }
 
 pub trait CalculatorSuperTrait:AdditiveOperations+ MultiplicativeOperations +BinaryOperations{
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write(f, "Calculator Print entered, inputs are {} and {}", self.first, self.second);
-        write(f, "Adding {} and {} to give {}", self.first, self.second, add)
-    }
+    fn get_first(&self)->i64;
+    fn get_second(&self)->i64;
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result;
 }
+

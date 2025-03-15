@@ -1,4 +1,5 @@
-struct Calculator {
-    first : i64,
-    second : i64
+pub struct Calculator {
+    pub first : i64,
+    pub second : i64
 }
+
